@@ -1,4 +1,4 @@
-const con = text => console.log(text);
+
 const t = () => {
   // Symbol은 원시타입이며, 다른 원시타입과는 다르게 리터럴이 존재하지 않음.
   // 그러므로 new Symbol(); - Error , Object(yourSymbol); 을 사용하면 심볼 인스턴스 생성 가능 유용하지는 않음.
