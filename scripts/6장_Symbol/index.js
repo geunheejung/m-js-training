@@ -15,11 +15,7 @@ const t = () => {
 }
 
 
-const t2 = () => {
-  let firstName = Symbol('first name');
-  let person = {
-    [firstName]: 'Nicholas',
-  };
+ㅓㄴ
 
   // Object.definedProperty() 에 의해 정의된 프로퍼티는 읽기 전용.
   // 3번째 인자자리는 'descriptor' 객체인데 이 객체에는 2개의 프로퍼티값을 받는다. 데이터 기술(value), 데이터 접근 기술(writable)
