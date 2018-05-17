@@ -24,7 +24,8 @@ const f = params => {
   // console.log(iterator.next());
   // console.log(iterator.next());
 
-  function* _createIterator() {
+  function
+   _createIterator() {
     yield 1;
     yield 2;
     yield 3;
