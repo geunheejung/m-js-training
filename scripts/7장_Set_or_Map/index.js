@@ -249,7 +249,7 @@ if (1) {
 
     function Person(name) {
       Object.defineProperty(this, "_id", {
-        value: privateId++
+        value: privateId++ㅓ
       });
 
       privateData[this._id] = {
