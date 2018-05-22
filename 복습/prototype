@@ -1,0 +1,88 @@
+if (1) {
+  function Person() {
+    this.name = 'anonymous';
+    this.job = 'none';
+    this.sayHello = function() {
+      console.log(`Hello, my name is ${this.name}`);
+    };
+  }
+
+  function Unikys() {
+    this.name = 'Unkiys';
+    this.job = 'Programmer';
+  }
+  Unikys.prototype = new Person();
+  var unikys = new Unikys(); // Unikys 생성자를 인스턴스화해서 만든 인스턴스객체이지만
+  // __proto__는 Unikys가 아닌 Person을 바라보고있음
+  unikys.sayHello();
+  const con = () => {
+    console.log(Unikys.prototype.constructor)
+    console.log(unikys.__proto__)
+    console.log(unikys instanceof Unikys);
+    console.log(unikys instanceof Person);
+  }
+  // con();
+}
+
+/** Object.create가 생겨난 이유는
+ * 위와 같은 방식으로 상속을 할 경우 겉으론 제대로 상속되었지만 내부에서는
+ * Unikys.prototype.constructor 프로퍼티는 자신의 원형인 생성자 함수를 바라보아야하는데
+ * Person을 바라보면서 constructor 링크가 깨졋으며,
+ * Unikys생성자 함수의 인스턴스 객체들 또한 자신의 프로토타입을 원형으로 만들어진 객체임에도
+ * __proto__ 링크가 자신이 아닌 Person을 바라보는 문제가 있다.
+ */
+
+function Person(name) {
+  this.name = name;
+};
+Person.prototype = {
+  yell: function() {
+    return `My name is ${this.name}!`;
+  }
+};
+// Object.create(prototype으로 둘 대상);
+var unkiys = Object.create(Person.prototype);
+unkiys.name = 'Unikys';
+console.log(unkiys.yell());
+
+console.log(unkiys instanceof Person);
+
+
+var person = {
+  yell: function () {
+    return `My name is ${this.name}`;
+  }
+};
+var unikys = Object.create(person);
+// console.log(unikys.__proto__)
+// console.log(unikys instanceof person);
+// unikys의 prototype이 person으로 설정되는 것이지, instanceof의 대상이 되지는 않는다.
+// unikys의 prototype은 person이지만, person의 prototype은 설정되지 않았기 때문에 빈 {}
+// 그러므로 체크를 하고싶다면 Object.getPrototypeOf() 사용
+console.log(Object.getPrototypeOf(unikys) === person) // 자신의 prototype을 반환하나봄
+
+if (1) {
+
+  function Person(name) {
+    console.log(name);
+    this.name = name;
+  }
+  Person.prototype = {
+    sayHello: function() {
+      return this.name;
+    }
+  }
+
+  function Geuni(name) {
+    Person.call(this, name);
+  }
+  Geuni.prototype = Object.create(Person.prototype); //Object.create로 파생 클래스의 프로토타입을 기반 클래스의 프로토타입으로 잡아주어서 연결시킨 뒤
+  Geuni.prototype.constructor = Geuni; // 위 과정에 의해 기반 클래스로 연결되어버린 파생클래스.prototype.constructor을 다시 자신의 생성자 함수로 잡아줌
+
+  var geuni = new Geuni('geunheeJung');
+  console.log(geuni.sayHello());
+  console.log(geuni instanceof Geuni);
+  console.log(geuni instanceof Person);
+
+
+}

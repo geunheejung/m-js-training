@@ -1,0 +1,23 @@
+함수 생성 시
+1. constructor 자격 부여
+2. 함수가 생성될 당시를 클론한 프로토타입 오브젝트 생성
+3. 프로토타입 오브젝트와 함수는 서로 접근이 가능한데
+  - 프로토타입 오브젝트는 constructor 프로퍼티를 이용하여 자신의 클론 대상인 생성자 함수에 접근이 가능하고
+  - 함수는 prototype 프로퍼티를 이용하여 자신의 클론인 프로토타입 오브젝트에 접근이 가능하다.
+
+생성자 함수의 인스턴스들이 생성자 함수의 프로토타입 오브젝트의 메서드에 접근이 가능한 이유는?
+  - Javascript의 모든 Object들은 __proto__ 라는 숨겨진 프로퍼티를 가지고 있는데, 이 프로퍼티는 자기 자신의 원형이되는 생성자 함수의 프로토타입 오브젝트를 바라봅니다.
+  - 그래서 현재 객체에 존재하지 않는 프로퍼티를 사용하려 할 경우 Javascript는 현재 자기 자신의 원형이되는 생성자 함수의 프로토타입 오브젝트를 __proto__ 프로퍼티를 이용하여 조회하고 없을 경우 생성자 함수를 조회하고
+    이런식으로 모든 프로토타입 체인을 조회하다 마지막에 Object 객체에서 null을 만나며 종료됩니다.
+
+instanceof
+  - instanceof의 우항 즉 생성자 객체는 Function 객체여야만 합니다.
+  - prototype이 같다면 true를 리턴하고, prototype chain을 따라가다가 마지막에 다다르면
+    false를 리턴하는 방식이다.
+  - var unikys의 prototype은 new Person() 이고,
+    function Unikys의 prototype 역시 new Person()으로 같다. 그래서 prototype의
+    constructor프로퍼티의 연결이 Unikys가 아닌 Person이지만 Unikys의 인스턴스에
+    unikys instanceof Unikys가 true로 나온 이유또한 prototpye chain을 탐색하다
+    서로 같은 new Person()을 바라보고있기에 true가 나왔다.
+
+ㅓ
