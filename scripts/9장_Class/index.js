@@ -276,8 +276,118 @@ const f8 = () => {
 
 const f9 = () => {
 
-  
+  class Rectangle {
+    constructor(length, width) {
+      this.length = length;
+      this.width = width;
+    }
+
+    getArea() {
+      return this.length * this.width;
+    }
+
+    static create(length, width) {
+      return new Rectangle(length, width);
+    }
+  }
+
+  class Square extends Rectangle {
+    constructor(length) {
+      super(length, length);
+    }
+  }
+
+  var x = Square.create(3, 3);
+  console.log(x.getArea());
+  console.log(x instanceof Rectangle);
+}
+
+const f10 = () => {
+
+  class Rectangle {
+    constructor(length, width) {
+      this.length = length;
+      this.width = width;
+    }
+
+    getArea() {
+      return this.length * this.width;
+    }
+  }
+
+  function getBase() {
+    return Rectangle;
+  }
+
+  class Square extends getBase() {
+    constructor(length) {
+      super(length, length);
+    }
+  }
+
+  let x = new Square(3, 3);
+  console.log(x.getArea())
+
+  console.log(x instanceof Rectangle);
 
 }
 
-f9();
+const f11 = () => {
+  let SerializableMixin = {
+    serialize() {
+      return JSON.stringify(this);
+    }
+  }
+
+  let AreaMixin = {
+    getArea() {
+      return this.length * this.width;
+    }
+  }
+
+  function mixin(...mixins) {
+    var base = function() {}
+    Object.assign(base.prototype, ...mixins);
+    return base;
+  }
+
+  // extends 뒤에 어떤 표현식이든 사용 가능하지만 모든 표현식이 유효한 것은 아니다.
+  // null이나 제네레이터 함수를 사용하면 에러가 발생한다.
+  // 클래스의 새 인스턴스를 만들려고 시도하면 호출되어야 할 [[Construct]]가 없기 때문이다.
+  class Square extends mixin(AreaMixin, SerializableMixin) {
+    constructor(length) {
+      super();
+      this.length = length;
+      this.width = length;
+    }
+  }
+
+  var x = new Square(3);
+
+  console.log(x.getArea())
+
+}
+
+const f12 = () => {
+
+  class MyArray extends Array {
+
+  }
+
+  var colors = new MyArray();
+  colors[0] = 'red';
+  console.log(colors.length);
+
+  colors.length = 0;
+  console.log(colors[0])
+
+  let items = new MyArray(1, 2, 3, 4);
+  console.log(items);
+  let subitems = items.slice(1, 3);
+
+  console.log(subitems);
+
+  // 내장 타입의 인스턴스를 반환하는 대신 파생 클래스의 인스턴스를 반환한다.
+  console.log(items instanceof MyArray);
+  console.log(subitems instanceof MyArray); // 내장 타입의 메서드를 호출하였음에도 자동으로 파생 클래스의 메서드를 사용
+}
